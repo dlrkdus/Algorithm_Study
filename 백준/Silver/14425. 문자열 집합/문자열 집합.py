@@ -1,10 +1,17 @@
-n,m=map(int,input().split())
-S=[input() for _ in range(n)]
-A=(input() for _ in range(m))
+import sys
 
-count=0
+input = sys.stdin.readline
 
-for i in A:
-    if i in S:
-        count+=1
-print(count)
+N, M = map(int, input().rstrip().split())
+
+S = {}
+count = 0
+
+for _ in range(N):
+  S[input().rstrip()] = 0
+
+for _ in range(M):
+  if input().rstrip() in S:
+    count += 1
+
+print(count) 
