@@ -2,16 +2,15 @@ import sys
 
 input = sys.stdin.readline
 
-N, M = map(int, input().rstrip().split())
-
+N, M = map(int, input().split())
 S = {}
 count = 0
 
 for _ in range(N):
-  S[input().rstrip()] = 0
+  S[input()] = 0
 
 for _ in range(M):
-  if input().rstrip() in S:
+  if input() in S:
     count += 1
 
 print(count) 
