@@ -12,6 +12,7 @@ def dfs(x,y):
                 matrix[nx][ny] = 0 #방문했다면 0으로 초기화 (visited)
                 dfs(nx, ny)
 
+
 t=int(input())
 for _ in range(t):
     count=0
