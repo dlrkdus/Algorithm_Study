@@ -2,16 +2,12 @@ N = int(input())
 km = list(map(int,input().split()))
 oil = list(map(int,input().split()))
 oil.pop()
-min = min(oil)
+min = oil[0]
 restKm = sum(km)
 result=0
 
 for i in range(len(km)):
-    if oil[i]==min:
-        result += restKm*oil[i]
-        break
-    else:
-        restKm-=km[i]
-        result+=km[i]*oil[i]
-
+    if oil[i]<min:
+        min=oil[i]
+    result+=km[i]*min
 print(result)
