@@ -13,5 +13,3 @@ for i in range(N):
             dp[j] = max(dp[j],dp[j-weight[i]]+value[i])
 
 print(dp[K])
-
-
