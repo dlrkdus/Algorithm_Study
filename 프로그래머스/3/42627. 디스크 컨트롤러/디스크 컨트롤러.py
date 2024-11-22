@@ -1,21 +1,32 @@
 import heapq
-# 평균 대기시간을 줄이는게 관건이겠지? 그러려면 실행 시간이 짧은 것을 우선적으로 실행하는게 유리할거야 
+
 def solution(jobs):
-    sum, now, i = 0,0,0
-    start = -1
-    hq = []
-    
-    while i<len(jobs):
-        for j in jobs:
-            if start < j[0] <= now: # 디스크가 실행되는 동안(start ~ now) 들어온 요청부터 처리
-                heapq.heappush(hq,[j[1],j[0]]) # 실행 시간이 짧은 순으로 처리
-        if len(hq) > 0:
-            current = heapq.heappop(hq)
-            start = now
-            # current[0] = 작업 소요 시간, current[1] = 요청 시각
-            now += current[0]
-            sum += (now - current[1]) # now - current[1] = 요청부터 처리 완료까지의 시간 
-            i+=1
-        else:
-            now +=1 # 잉여 시간이면 now 땡기기
-    return int(sum/len(jobs))
+    # 결과 값
+    total_wait_time = 0
+    now = 0  # 현재 시각
+    waitings = []  # 대기열
+    jobs.sort(key=lambda x: x[0])  # 요청 시각 기준으로 정렬
+    num_jobs = len(jobs)
+    processed_jobs = 0  # 처리한 작업 수
+
+    # 프로그램이 모두 처리될 때까지 반복
+    while jobs or waitings:
+        # 현재 시각 기준으로 대기열에 넣기
+        while jobs and jobs[0][0] <= now:
+            job = jobs.pop(0)
+            heapq.heappush(waitings, (job[1], job[0]))  # 실행 시간 기준으로 대기열에 추가
+
+        # 대기열이 비어있다면 시간을 요청 시각으로 이동
+        if not waitings and jobs:
+            now = jobs[0][0]
+            continue
+
+        # 대기열에서 작업 처리
+        if waitings:
+            duration, request_time = heapq.heappop(waitings)
+            now += duration  # 현재 시각을 작업 실행 시간만큼 증가
+            total_wait_time += (now - request_time)  # 대기 시간 계산
+            processed_jobs += 1
+
+    # 평균 대기 시간 반환
+    return total_wait_time // num_jobs
