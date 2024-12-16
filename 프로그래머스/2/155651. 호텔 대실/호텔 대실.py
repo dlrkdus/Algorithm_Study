@@ -2,16 +2,16 @@ import heapq
 from collections import deque
 def solution(book_time):
     count = 0
-    room = []
-    times = deque(convert(book_time))
-    while times:
-        time = times.popleft()
-        if room and time[0] >= room[0]:
-            heapq.heappop(room)
+    time = convert(book_time)
+    hotel = []
+    for t in time:
+        if len(hotel) == 0:
+            heapq.heappush(hotel,t[1])
         else:
-            count +=1
-        heapq.heappush(room,time[1])
-    return count
+            if hotel[0] <= t[0]:
+                heapq.heappop(hotel)
+            heapq.heappush(hotel,t[1])
+    return len(hotel)
 
 def convert(arr):
     tmp = []
