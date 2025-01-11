@@ -1,25 +1,24 @@
 from collections import deque, defaultdict
 def solution(n, edge):
-    answer = 0
     graph = defaultdict(list)
-    for a, b in edge:
-        graph[a].append(b)
-        graph[b].append(a)  
-        
+    for e in edge:
+        graph[e[0]].append(e[1])
+        graph[e[1]].append(e[0]) # 양방향 그래프로 설정
+    distance = [0 for i in range(n+1)]
     visited = [0 for i in range(n+1)]
     visited[1] = 1
-    distance = [float('inf')] * (n + 1)    
-    distance[1] = 0 
-    distance[0] = -1
-    d = deque([1])
-
-    while d:
-        now = d.popleft()
-        for neighbor in graph[now]:
+    q= deque()
+    q.append(1)
+    while q:
+        now = q.popleft()
+        neighbors = graph[now]
+        for neighbor in neighbors:
             if not visited[neighbor]:
                 visited[neighbor] = 1
-                distance[neighbor ] = distance[now] + 1
-                d.append(neighbor)
-
+                distance[neighbor]= distance[now]+1
+                q.append(neighbor)
     return distance.count(max(distance))
+            
+        
+            
     
