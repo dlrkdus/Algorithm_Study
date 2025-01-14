@@ -1,22 +1,22 @@
 from collections import deque
 N, K = map(int,input().split())
-MAX = 10 **5
-visited = [0] * (MAX+1)
-arr = [0] * (MAX+1)
-d = deque()
-d.append(N)
-min_cnt = 0
-
-while d:
-    now = d.popleft()
-    if now == K:
-        print(arr[K])
+MAX = 10** 5
+visited = [0 for i in range(MAX+ 1)]
+result = [0 for i in range(MAX+ 1)]
+q = deque()
+q.append(N)
+while q:
+    n = q.popleft()
+    distance = [n,-1,1]
+    if n == K:
         break
-    for next in [2*now, now-1,now+1]:
-        if 0<=next<=MAX and not visited[next]:
-            visited[next] = 1
-            if next == 2*now:
-                arr[next] = arr[now]
+    for i in range(3):
+        if 0<=n+distance[i] <= MAX and not visited[n+distance[i]]:
+            visited[n+distance[i]] = 1
+            if i== 0:
+                result[n+distance[i]] = result[n] 
             else:
-                arr[next] = arr[now] + 1 
-            d.append(next)
+                result[n+distance[i]] = result[n] + 1
+            q.append(n+distance[i])
+
+print(result[K])
