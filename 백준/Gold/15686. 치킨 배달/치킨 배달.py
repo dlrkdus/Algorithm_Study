@@ -1,36 +1,31 @@
-# abs(i-x) + abs(j-y)
+from itertools import combinations
+N, M = map(int,input().split())
+arr = [list(map(int,input().split())) for _ in range(N)]
+chickens = []
+homes = []
+for i in range(N):
+    for j in range(N):
+        if arr[i][j] == 1:
+            homes.append([i,j])
+        if arr[i][j] == 2:
+            chickens.append([i,j])
 
-n,m = map(int,input().split())
-arr=[]
-house = []
-chicken = []
-for i in range(n):
-    a = list(map(int,input().split()))
-    arr.append(a)
-    for j in range(n):
-        if arr[i][j]==1:
-            house.append([i,j])
-        if arr[i][j]==2:
-            chicken.append([i,j])
+def get_chicken_load(home, chicken):
+    cl = 100000000000
+    for c in chicken:
+        load = abs(c[0]-home[0]) + abs(c[1]-home[1])
+        cl = min(cl,load)
+    return cl
 
-tmp = [0 for i in range(m)]
-visited = [0 for i in range(m)]
-result = []
-def dfs(idx,level):
-    if idx==m:
-        r = 0
-        for h in house:
-            min_count=99999
-            count=0
-            for c in tmp:
-                count=(abs(h[0]-c[0])+abs(h[1]-c[1]))
-                min_count = min(min_count,count)
-            r+=min_count
-        result.append(r)
-        return
-    for i in range(level, len(chicken)):
-        tmp[idx]=chicken[i]
-        dfs(idx+1,i+1)
+answer = 1000000000
 
-dfs(0,0)
-print(min(result))
+for comb in list(combinations(chickens,M)):
+    result = []
+    for home in homes:
+        result.append(get_chicken_load(home,comb))
+    answer = min(answer,sum(result))
+        
+print(answer)
+
+    
+
