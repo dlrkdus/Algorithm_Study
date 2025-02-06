@@ -1,18 +1,16 @@
-n, k = map(int,input().split())
-coin = []
-dp = [10001]*(k+1)
-dp[0]=0
-for _ in range(n):
-    a = int(input())
-    if a<=k:
-        coin.append(a)
-        dp[a]=1
+N, M = map(int,input().split())
+money = []
+for _ in range(N):
+    money.append(int(input()))
+money.sort(reverse=True) # 내림차순
 
-for c in coin:
-    for i in range(c,k+1):
-        dp[i] = min(dp[i-c]+1,dp[i])
-
-if dp[k]==10001:
-    print("-1")
+dp = [10001] * (1000001)
+for i in money:
+    dp[i] = 1
+for i in range(M+1):
+    for m in money:
+        dp[i+m] = min(dp[i+m],dp[i] + 1)
+if dp[M] == 10001:
+    print(-1)
 else:
-    print(dp[k])
+    print(dp[M])
