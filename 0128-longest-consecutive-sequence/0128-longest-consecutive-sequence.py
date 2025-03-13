@@ -3,9 +3,13 @@ class Solution:
         n = sorted(set(nums))
         if len(n) == 0 :
             return 0
+        print(n)
         count = 1
-        for i in range(1,len(n)):
-            if n[i] != n[i-1] + 1:
-                break
+        arr = []
+        for i in range(len(n)):
+            if i == len(n)-1 or n[i]+1 != n[i+1]:
+                arr.append(count)
+                print(count)
+                count = 0
             count += 1
-        return count
+        return max(arr)
